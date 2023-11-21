@@ -7,6 +7,21 @@
 | [Features](#features) | [What is a mod manager?](#what-is-a-mod-manager) | [Installing](#installing) | [Help](#help) | [Feedback and suggestions](#feedback-and-suggestions) | [Changelog](#changelog) | [Screenshots](#screenshots) |
 |---|---|---|---|---|---|---|
 
+## Develop Releases
+
+Develop fork made to allow for quick releases instead of waiting for months on the main fork. The only code changed in this fork is the github actions, version numbers and this readme, all other code changes are merged from r2modmanPlus
+
+Versioning for my reference:
+
+`npm version prepatch --preid=develop npm version patch`
+
+Undo version
+`git reset --hard origin/master git fetch origin --prune --tags`
+
+Push version
+`git push --tags`
+
+
 ## Features
 - Support for Risk of Rain 2, Dyson Sphere Program, Valheim, GTFO, BONEWORKS, and more
 - A clean user interface designed to make modding as simple as possible

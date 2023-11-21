@@ -1,6 +1,11 @@
 name: Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - develop
+    tags:
+      - v*
 
 jobs:
   build:
@@ -51,6 +56,33 @@ jobs:
         name: Log stderr
         continue-on-error: true
         run: echo '${{ steps.build.outputs.stderr }}'
+
+      - name: Get commits since version
+        id: commits
+        run: echo ::set-output name=value::$(git log "$(git describe --tags --abbrev=0)..HEAD" --no-merges --oneline)
+      
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: true
+          body: |
+            ${{ needs.lint.outputs.run_lint }}
+            ${{ steps.commits.outputs.value }}
+          files: |
+            dist/electron/Packaged/*.yml
+            dist/electron/Packaged/*.yaml
+            dist/electron/Packaged/*.deb
+            dist/electron/Packaged/*.dmg
+            dist/electron/Packaged/*.exe
+            dist/electron/Packaged/*.blockmap
+            dist/electron/Packaged/*.rpm
+            dist/electron/Packaged/*.zip
+            dist/electron/Packaged/*.AppImage
+            dist/electron/Packaged/*.pacman
+            dist/electron/Packaged/*.tar.gz
 
       # Creating Electron executables can in some cases fail with exit code 0.
       # Check the output of build step for obvious signs of failure.

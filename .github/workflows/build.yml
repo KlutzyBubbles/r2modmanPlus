@@ -69,7 +69,6 @@ jobs:
         with:
           draft: true
           body: |
-            ${{ needs.lint.outputs.run_lint }}
             ${{ steps.commits.outputs.value }}
           files: |
             dist/electron/Packaged/*.yml

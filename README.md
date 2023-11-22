@@ -16,7 +16,7 @@ Versioning for my reference:
 `npm version prepatch --preid=develop npm version patch`
 
 Undo version
-`git reset --hard origin/master git fetch origin --prune --tags`
+`git reset --hard origin/develop git fetch origin --prune --tags`
 
 Push version
 `git push --tags`
